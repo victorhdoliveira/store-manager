@@ -18,6 +18,12 @@ const oneProduct = {
     name: 'Martelo de Thor'
   }
 
+
+const newProduct = {
+  "id": 4,
+  "name": "ProdutoX"
+}
+
 const idNotFoundError = { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
 
 const idNotNumberError = { type: 'INVALID_VALUE', message: 'id must be a number' };
@@ -26,5 +32,6 @@ module.exports = {
   products,
   oneProduct,
   idNotFoundError,
-  idNotNumberError
+  idNotNumberError,
+  newProduct
 }

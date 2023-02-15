@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const { productService } = require('../../../src/services');
 const { productModel } = require('../../../src/models')
 
-const { products, oneProduct, idNotFoundError, idNotNumberError } = require('./mocks/product.services.mock')
+const { products, oneProduct, idNotFoundError, idNotNumberError, newProduct } = require('./mocks/product.services.mock')
 
 describe('Testes de unidade do service de products', function () {
   it('Retorna a lista de products', async function () {
@@ -30,6 +30,13 @@ describe('Testes de unidade do service de products', function () {
     sinon.stub(productModel, 'findById').resolves(idNotNumberError);
     const result = await productService.findById('x');
     expect(result).to.be.deep.equal(idNotNumberError);
+  });
+
+   it('Não retorna mensagem quando acrescenta um novo product', async function () {
+    sinon.stub(productModel, 'insertNewProduct').resolves(newProduct);
+    const result = await productService.newProduct('ProdutoX')
+    expect(result.type).to.be.deep.equal(null);
+    expect(result.message).to.be.deep.equal(newProduct);
   });
 
 
