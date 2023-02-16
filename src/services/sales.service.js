@@ -8,7 +8,7 @@ const newSale = async (itemsSold) => {
   
   const allSalesId = await productsId();
   const validate = itemsSold.every(({ productId }) => allSalesId.includes(productId));
-  if (!validate) return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
+  if (!validate) return { type: 'NOT_FOUND', message: 'Product not found' };
 
   const id = await saleModel.insertNewSale();
   await Promise.all(itemsSold.map((item) => saleProductModel
@@ -17,6 +17,20 @@ const newSale = async (itemsSold) => {
   return { type: null, message: { id, itemsSold } };
 };
 
+const findAll = async () => {
+  const sales = await saleModel.findAll();
+  return { type: null, message: sales };
+};
+
+const findById = async (saleId) => {
+  const sale = await saleModel.findById(saleId);
+  if (!sale.length) return { type: 'NOT_FOUND', message: 'Sale not found' };
+
+  return { type: null, message: sale };
+};
+
 module.exports = {
   newSale,
+  findAll,
+  findById,
 };
