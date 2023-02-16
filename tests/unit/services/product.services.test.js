@@ -39,7 +39,6 @@ describe('Testes de unidade do service de products', function () {
     expect(result.message).to.be.deep.equal(newProduct);
   });
 
-
   afterEach(function () {
     sinon.restore();
   });

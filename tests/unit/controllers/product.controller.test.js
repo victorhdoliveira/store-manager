@@ -9,7 +9,7 @@ const { productController } = require('../../../src/controllers')
 const { productService } = require('../../../src/services')
 const { products, oneProduct, newProduct } = require('./mocks/product.controller.mock')
 
-describe('Testes de unidade do service de products', function () {
+describe('Testes de unidade do controller de products', function () {
   it('Verifica se é possível buscar por todos os produtos', async function () {
     const res = {};
     const req = {};
