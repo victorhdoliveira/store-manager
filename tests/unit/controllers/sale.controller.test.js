@@ -18,7 +18,7 @@ describe('Testes de unidade do controller de sale', function () {
     sinon
       .stub(saleService, 'newSale')
       .resolves({ type: null, message: sucessSale });
-    await saleController.insertProduct(req, res)
+    await saleController.insertSale(req, res)
 
     expect(res.status).to.have.been.calledWith(201);
     expect(res.json).to.have.been.calledWith(sucessSale);
