@@ -7,7 +7,7 @@ chai.use(sinonChai);
 
 const { productController } = require('../../../src/controllers')
 const { productService } = require('../../../src/services')
-const { products, oneProduct, newProduct, notFoundError } = require('./mocks/product.controller.mock')
+const { products, oneProduct, newProduct, notFoundError, updateProduct } = require('./mocks/product.controller.mock')
 
 describe('Testes de unidade do controller de products', function () {
   it('Verifica se é possível buscar por todos os produtos', async function () {
@@ -36,7 +36,7 @@ describe('Testes de unidade do controller de products', function () {
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith(notFoundError.message);
   });
-  it('Verifica se a função de buscar os produtos de acordo com o id', async function () {
+  it('Verifica se a função de buscar os produtos de acordo com o id é realizada com sucesso', async function () {
     const res = {};
     const req = { params: { id: 1 }};
     res.status = sinon.stub().returns(res);
@@ -83,6 +83,31 @@ describe('Testes de unidade do controller de products', function () {
       .stub(productService, 'newProduct')
       .resolves(notFoundError);
     await productController.insertProduct(req, res);
+
+    expect(res.status).to.have.been.calledWith(404);
+  });
+  it('Verifica se é possível atualizar um produto de acordo com seu id', async function () {
+    const res = {};
+    const req = { body: { name: 'Martelo do Batman' }, params: { id: 1 }};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(productService, 'updateProductById')
+      .resolves({ type: null, message: updateProduct });
+    await productController.updateProduct(req, res)
+
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith(updateProduct);
+  });
+  it('Retorna status 404 caso não seja possível atualizar um produto', async function () {
+    const res = {};
+    const req = { body: { name: 'Martelo do Batman' }, params: { id: 1 }};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(productService, 'updateProductById')
+      .resolves(notFoundError);
+    await productController.updateProduct(req, res);
 
     expect(res.status).to.have.been.calledWith(404);
   });
