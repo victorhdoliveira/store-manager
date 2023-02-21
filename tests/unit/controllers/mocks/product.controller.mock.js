@@ -23,8 +23,11 @@ const newProduct = {
   "name": "ProdutoX"
 }
 
+const notFoundError = { type: 'NOT_FOUND', message: 'Product not found' };
+
   module.exports = {
   products,
   oneProduct,
-  newProduct
+  newProduct,
+  notFoundError
 }

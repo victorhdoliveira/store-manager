@@ -7,7 +7,7 @@ chai.use(sinonChai);
 
 const { saleController } = require('../../../src/controllers')
 const { saleService } = require('../../../src/services')
-const { sucessSale } = require('./mocks/sale.controller.mock')
+const { sucessSale, allSales, saleId2, notFoundError } = require('./mocks/sale.controller.mock')
 
 describe('Testes de unidade do controller de sale', function () {
   it('Verifica se é criado uma nova sale', async function () {
@@ -22,5 +22,72 @@ describe('Testes de unidade do controller de sale', function () {
 
     expect(res.status).to.have.been.calledWith(201);
     expect(res.json).to.have.been.calledWith(sucessSale);
+  });
+   it('Retorna status 404 caso não seja possível criar uma nova sale', async function () {
+    const res = {};
+    const req = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(saleService, 'newSale')
+      .resolves(notFoundError);
+    await saleController.insertSale(req, res)
+
+    expect(res.status).to.have.been.calledWith(404);
+  });
+  it('Verifica se é possível buscar por todas as sales', async function () {
+    const res = {};
+    const req = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(saleService, 'findAll')
+      .resolves({ type: null, message: allSales });
+    await saleController.getAllSales(req, res);
+
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith(allSales);
+  });
+  it('Retorna status 404 caso não seja possível listar todas as sales', async function () {
+    const res = {};
+    const req = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(saleService, 'findAll')
+      .resolves(notFoundError);
+    await saleController.getAllSales(req, res)
+
+    expect(res.status).to.have.been.calledWith(404);
+    expect(res.json).to.have.been.calledWith(notFoundError.message);
+   });
+  it('Verifica se a função de buscar as sales de acordo com o id', async function () {
+    const res = {};
+    const req = { params: { id: 2 }};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(saleService, 'findById')
+      .resolves({ type: null, message: saleId2 });
+    await saleController.getSalesById(req, res)
+
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith(saleId2);
+  });
+   it('Retorna status 404 caso id não exista', async function () {
+    const res = {};
+    const req = { params: { id: 99 }};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(saleService, 'findById')
+      .resolves(notFoundError);
+    await saleController.getSalesById(req, res)
+
+    expect(res.status).to.have.been.calledWith(404);
+   });
+  
+    afterEach(function () {
+    sinon.restore();
   });
 });
