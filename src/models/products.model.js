@@ -43,11 +43,12 @@ const updateProduct = async (name, id) => {
 };
 
 const deleteProduct = async (id) => {
-  await connection.execute(
+  const [result] = await connection.execute(
     `DELETE FROM products
     WHERE id = ?`,
     [id],
   );
+  return result;
 };
 
 module.exports = {

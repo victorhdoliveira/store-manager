@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const { productService } = require('../../../src/services');
 const { productModel } = require('../../../src/models')
 
-const { products, oneProduct, idNotFoundError, idNotNumberError, newProduct, updateProduct } = require('./mocks/product.services.mock')
+const { products, oneProduct, idNotFoundError, idNotNumberError, newProduct, updateProduct, removeProduct3 } = require('./mocks/product.services.mock')
 
 describe('Testes de unidade do service de products', function () {
   it('Retorna a lista de products', async function () {
@@ -44,6 +44,19 @@ describe('Testes de unidade do service de products', function () {
     const result = await productService.updateProductById('Martelo do Batman', 1)
     expect(result.type).to.be.deep.equal(null);
     expect(result.message).to.be.deep.equal(updateProduct);
+   });
+  
+  it('Verifica se é realizada a exclusão de um item', async function () {
+    sinon.stub(productModel, 'deleteProduct').resolves(products);
+    const result = await productService.deleteProductById(3)
+    expect(result.type).to.be.deep.equal(null);
+    expect(result.message).to.be.deep.equal('');
+   });
+
+  it('Verifica se não é possível excluir um produto com id inexistente', async function () {
+    sinon.stub(productModel, 'deleteProduct').resolves(products);
+    const result = await productService.deleteProductById(99)
+    expect(result).to.be.deep.equal(idNotFoundError);
    });
   
   afterEach(function () {

@@ -6,8 +6,8 @@ const { sucessSale, wrongZeroQuantityBody, wrongZeroNegativeBody, idNotFoundErro
 
 
 describe('Testes de unidade do service de sales', function () {
-  it('Retorna os dados da venda realizada com sucesso', async function () {
-    sinon.stub(saleProductModel, 'insertNewSaleProduct').resolves(sucessSale.id);
+ it('Retorna os dados da venda realizada com sucesso', async function () {
+    sinon.stub(saleProductModel, 'insertNewSaleProduct').resolves(sucessSale);
     // sinon.stub(saleModel, 'findById').resolves(sucessSale.id);
     const result = await saleService.newSale(sucessSale.itemsSold);
     expect(result.type).to.be.deep.equal(null);

@@ -114,4 +114,28 @@ describe('Testes de unidade do controller de products', function () {
    afterEach(function () {
     sinon.restore();
   });
+  it('Verifica se é possível excluir product', async function () {
+    const res = {};
+    const req = { params: { id: 1 }};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(productService, 'deleteProductById')
+      .resolves({ type: null, message: '' });
+    await productController.deleteProductById(req, res)
+
+    expect(res.status).to.have.been.calledWith(204);
+  });
+  it('Verifica se é possível excluir product com id inexistente', async function () {
+    const res = {};
+    const req = { params: { id: 99 }};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(productService, 'deleteProductById')
+      .resolves(notFoundError);
+    await productController.deleteProductById(req, res)
+
+    expect(res.status).to.have.been.calledWith(404);
+   });
 });

@@ -28,7 +28,18 @@ const updateProduct = {
   "name": "Martelo do Batman"
 }
 
-const idNotFoundError = { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
+const removeProduct1 = [
+  {
+    "id": 2,
+    "name": "Traje de encolhimento"
+  },
+  {
+    "id": 3,
+    "name": "Escudo do Capitão América"
+  }
+]
+
+const idNotFoundError = { type: 'NOT_FOUND', message: 'Product not found' };
 
 const idNotNumberError = { type: 'INVALID_VALUE', message: 'id must be a number' };
 
@@ -39,4 +50,5 @@ module.exports = {
   idNotNumberError,
   newProduct,
   updateProduct,
+  removeProduct1,
 }
