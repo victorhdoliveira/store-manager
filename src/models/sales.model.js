@@ -22,8 +22,8 @@ const findAll = async () => {
 const findById = async (salesId) => {
   const [result] = await connection.execute(
     `SELECT s.date, p.product_id, p.quantity
-    FROM StoreManager.sales AS s
-    INNER JOIN StoreManager.sales_products AS p 
+    FROM sales AS s
+    INNER JOIN sales_products AS p 
     ON s.id = p.sale_id
     WHERE s.id = ? 
     ORDER BY p.sale_id, p.product_id;`,
@@ -32,8 +32,18 @@ const findById = async (salesId) => {
   return camelize(result);
 };
 
+const deleteSale = async (id) => {
+  const [result] = await connection.execute(
+    `DELETE FROM sales
+    WHERE id = ?`,
+    [id],
+  );
+  return result;
+};
+
 module.exports = {
   insertNewSale,
   findAll,
   findById,
+  deleteSale,
 };
