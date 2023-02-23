@@ -87,6 +87,32 @@ describe('Testes de unidade do controller de sale', function () {
     expect(res.status).to.have.been.calledWith(404);
    });
   
+  it('Verifica se é possível excluir uma venda', async function () {
+    const res = {};
+    const req = { params: { id: 1 }};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(saleService, 'deleteSaleById')
+      .resolves({ type: null, message: '' });
+    await saleController.deleteSaleById(req, res)
+
+    expect(res.status).to.have.been.calledWith(204);
+  });
+
+  it('Verifica se é possível excluir uma venda com id inexistente', async function () {
+    const res = {};
+    const req = { params: { id: 99 }};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(saleService, 'deleteSaleById')
+      .resolves(notFoundError);
+    await saleController.deleteSaleById(req, res)
+
+    expect(res.status).to.have.been.calledWith(404);
+   });
+  
     afterEach(function () {
     sinon.restore();
   });

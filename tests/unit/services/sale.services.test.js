@@ -44,7 +44,21 @@ describe('Testes de unidade do service de sales', function () {
     sinon.stub(saleModel, 'findById').resolves(idNotFoundError);
     const result = await saleService.findById(99);
     expect(result).to.deep.equal(idNotFoundError);
-  });
+   });
+  
+  it('Verifica se é realizada a exclusão de uma venda', async function () {
+    sinon.stub(saleModel, 'deleteSale').resolves(allSales);
+    const result = await saleService.deleteSaleById(2)
+    expect(result.type).to.be.deep.equal(null);
+    expect(result.message).to.be.deep.equal('');
+   });
+
+  it('Verifica se não é possível excluir uma venda com id inexistente', async function () {
+     sinon.stub(saleModel, 'deleteSale').resolves(allSales);
+    const result = await saleService.deleteSaleById(99)
+    expect(result).to.be.deep.equal(idNotFoundError);
+   });
+  
   
    afterEach(function () {
     sinon.restore();

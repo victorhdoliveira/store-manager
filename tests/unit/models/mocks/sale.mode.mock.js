@@ -41,8 +41,18 @@ const saleId2 = [
   }
 ]
 
+const removeSale1 = [
+  {
+    "saleId": 2,
+    "date": "2023-02-16T22:42:27.000Z",
+    "productId": 3,
+    "quantity": 15
+  }
+]
+
 module.exports = {
   sucessSale,
   allSales,
   saleId2,
+  removeSale1,
 };
