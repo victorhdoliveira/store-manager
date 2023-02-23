@@ -39,10 +39,20 @@ const deleteProductById = async (id) => {
   return { type: null, message: '' };
 };
 
+const searchProduct = async (search) => {
+  const allProducts = await productModel.findAll();
+  const filtering = allProducts.filter((product) => product.name.includes(search));
+
+  if (!allProducts) return allProducts;
+
+  return { type: null, message: filtering };
+};
+
 module.exports = {
   findAll,
   findById,
   newProduct,
   updateProductById,
   deleteProductById,
+  searchProduct,
 };
