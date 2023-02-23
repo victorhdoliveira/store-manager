@@ -1,15 +1,13 @@
 const { saleModel } = require('../models');
 const schema = require('./validations/validations');
-const { productsId } = require('../utils/hasProduct');
 
 const newSale = async (itemsSold) => {
   const error = await schema.validateNewSale(itemsSold);
   if (error.type) return error;
-  
-  const allSalesId = await productsId();
-  const validate = itemsSold.every(({ productId }) => allSalesId.includes(productId));
-  if (!validate) return { type: 'NOT_FOUND', message: 'Product not found' };
 
+  const hasProductId = await schema.validateProduct(itemsSold);
+  if (hasProductId) return hasProductId;
+  
   const id = await saleModel.insertNewSale();
   await Promise.all(itemsSold.map((item) => saleModel
     .insertNewSaleProduct(id, item.productId, item.quantity)));
@@ -38,12 +36,11 @@ const deleteSaleById = async (saleId) => {
 };
 
 const updateSale = async (saleId, itemsUpdated) => {
+  const hasProductId = await schema.validateProduct(itemsUpdated);
+  if (hasProductId) return hasProductId;
+
   const sale = await saleModel.findById(saleId);
   if (!sale.length) return { type: 'NOT_FOUND', message: 'Sale not found' };
-
-  const allSalesId = await productsId();
-  const validate = itemsUpdated.every(({ productId }) => allSalesId.includes(productId));
-  if (!validate) return { type: 'NOT_FOUND', message: 'Product not found' };
 
   await Promise.all(itemsUpdated.map((item) => saleModel
     .updateSale(saleId, item.productId, item.quantity)));

@@ -24,7 +24,7 @@ describe('Testes de unidade do model de products', function () {
     expect(result).to.be.deep.equal(newProduct);
   });
 
-  it('Atualizando um novo product', async function () {
+  it('Atualizando um product', async function () {
     sinon.stub(connection, 'execute').resolves([[updateProduct]]);
     const result = await productModel.updateProduct("Martelo do Batman", 1)
     expect(result).to.be.deep.equal(updateProduct);

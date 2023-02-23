@@ -2,7 +2,8 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const { saleService} = require('../../../src/services')
 const { saleModel } = require('../../../src/models')
-const { sucessSale, wrongZeroQuantityBody, wrongZeroNegativeBody, idNotFoundError, allSales, saleId2} = require('./mocks/sale.services.mock')
+const { sucessSale, wrongZeroQuantityBody, wrongZeroNegativeBody,
+  idNotFoundError, allSales, saleId2, updatedSale } = require('./mocks/sale.services.mock')
 
 
 describe('Testes de unidade do service de sales', function () {
@@ -13,7 +14,7 @@ describe('Testes de unidade do service de sales', function () {
     expect(result.type).to.be.deep.equal(null);
     // expect(result.message).to.deep.equal(sucessSale);
   });
-
+  
   it('Retorna o erro caso quantity seja igual a zero', async function () {
     const result = await saleService.newSale(wrongZeroQuantityBody);
     expect(result.type).to.be.deep.equal('INVALID_VALUE');
@@ -59,7 +60,20 @@ describe('Testes de unidade do service de sales', function () {
     expect(result).to.be.deep.equal(idNotFoundError);
    });
   
-  
+  it('Retorna uma sale atualizada conforme id', async function () {
+    sinon.stub(saleModel, 'updateSale').resolves(updatedSale);
+    const { saleId, itemsUpdated } = updatedSale;
+    const result = await saleService.updateSale(saleId, itemsUpdated)
+    expect(result.type).to.be.deep.equal(null);
+    expect(result.message).to.be.deep.equal(updatedSale);
+  });
+
+  it('Retorna mensagem de erro caso id não exista no momento da atualização', async function () {
+    sinon.stub(saleModel, 'updateSale').resolves(idNotFoundError);
+    const { itemsUpdated } = updatedSale;
+    const result = await saleService.updateSale(99, itemsUpdated);
+    expect(result).to.deep.equal(idNotFoundError);
+   });
    afterEach(function () {
     sinon.restore();
   });

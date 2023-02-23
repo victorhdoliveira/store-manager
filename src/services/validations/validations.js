@@ -1,4 +1,5 @@
 const { idSchema, saleSchema } = require('./schemas');
+const { productsId } = require('../../utils/hasProduct');
 
 const validateId = (id) => {
   const { error } = idSchema.validate(id);
@@ -18,7 +19,14 @@ const validateNewSale = (sale) => {
   return { type: null, message: '' };
 };
 
+const validateProduct = async (items) => {
+  const allSalesId = await productsId();
+  const validate = items.every(({ productId }) => allSalesId.includes(productId));
+  if (!validate) return { type: 'NOT_FOUND', message: 'Product not found' };
+};
+
 module.exports = {
   validateId,
   validateNewSale,
+  validateProduct,
 };

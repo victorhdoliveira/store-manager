@@ -41,6 +41,19 @@ const saleId2 = [
     "quantity": 15
   }
 ]
+const updatedSale = {
+    "saleId": 1,
+    "itemsUpdated": [
+      {
+        "productId": 1,
+        "quantity":10
+      },
+      {
+        "productId": 2,
+        "quantity":50
+      }
+    ]
+}
 
 const notFoundError = { type: 'NOT_FOUND', message: 'Product not found' };
 
@@ -48,5 +61,6 @@ module.exports = {
   sucessSale,
   allSales,
   saleId2,
-  notFoundError
+  notFoundError,
+  updatedSale
 };

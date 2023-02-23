@@ -12,7 +12,6 @@ const sucessSale = {
   ]
 };
 
-
 const allSales = [
   {
     "saleId": 1,
@@ -42,6 +41,20 @@ const saleId2 = [
   }
 ]
 
+const updatedSale = {
+    "saleId": 1,
+    "itemsUpdated": [
+      {
+        "productId": 1,
+        "quantity":10
+      },
+      {
+        "productId": 2,
+        "quantity":50
+      }
+    ]
+}
+
 const wrongZeroQuantityBody = [{ productId: 1, quantity: 0 }];
 
 const wrongZeroNegativeBody = [{ productId: 1, quantity: -1 }];
@@ -55,5 +68,6 @@ module.exports = {
   wrongZeroNegativeBody,
   idNotFoundError,
   allSales,
-  saleId2
+  saleId2,
+  updatedSale
 };
