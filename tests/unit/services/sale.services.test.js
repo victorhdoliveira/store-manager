@@ -1,13 +1,13 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const { saleService} = require('../../../src/services')
-const { saleProductModel, saleModel } = require('../../../src/models')
+const { saleModel } = require('../../../src/models')
 const { sucessSale, wrongZeroQuantityBody, wrongZeroNegativeBody, idNotFoundError, allSales, saleId2} = require('./mocks/sale.services.mock')
 
 
 describe('Testes de unidade do service de sales', function () {
  it('Retorna os dados da venda realizada com sucesso', async function () {
-    sinon.stub(saleProductModel, 'insertNewSaleProduct').resolves(sucessSale);
+    sinon.stub(saleModel, 'insertNewSaleProduct').resolves(sucessSale);
     // sinon.stub(saleModel, 'findById').resolves(sucessSale.id);
     const result = await saleService.newSale(sucessSale.itemsSold);
     expect(result.type).to.be.deep.equal(null);

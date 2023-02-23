@@ -8,6 +8,13 @@ const insertNewSale = async () => {
   return insertId;
 };
 
+const insertNewSaleProduct = async (saleId, productId, quantity) => {
+  await connection.execute(
+    'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
+    [saleId, productId, quantity],
+  );
+};
+
 const findAll = async () => {
   const [result] = await connection.execute(
     `SELECT p.sale_id, s.date, p.product_id, p.quantity
@@ -41,9 +48,23 @@ const deleteSale = async (id) => {
   return result;
 };
 
+const updateSale = async (saleId, productId, quantity) => {
+  await connection.execute(
+    `UPDATE sales_products
+     SET quantity = ?  
+     WHERE sale_id = ? 
+     AND product_id = ?`,
+    [quantity, saleId, productId],
+  );
+  const updated = await findById(saleId);
+  return updated;
+};
+
 module.exports = {
   insertNewSale,
+  insertNewSaleProduct,
   findAll,
   findById,
   deleteSale,
+  updateSale,
 };

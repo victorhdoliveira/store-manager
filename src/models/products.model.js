@@ -35,11 +35,8 @@ const updateProduct = async (name, id) => {
     WHERE id = ?`,
     [name, id],
   );
-   const [[result]] = await connection.execute(
-    'SELECT * FROM products WHERE id = ?',
-    [id],
-  );
-  return result;
+  const updated = await findById(id);
+  return updated;
 };
 
 const deleteProduct = async (id) => {
