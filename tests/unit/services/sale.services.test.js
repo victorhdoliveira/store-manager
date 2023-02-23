@@ -15,13 +15,13 @@ describe('Testes de unidade do service de sales', function () {
     // expect(result.message).to.deep.equal(sucessSale);
   });
   
-  it('Retorna o erro caso quantity seja igual a zero', async function () {
+  it('Retorna status 422 caso quantity seja igual a zero', async function () {
     const result = await saleService.newSale(wrongZeroQuantityBody);
     expect(result.type).to.be.deep.equal('INVALID_VALUE');
     expect(result.message).to.deep.equal('"quantity" must be greater than or equal to 1');
   });
 
-  it('Retorna o erro caso quantity seja negativa', async function () {
+  it('Retorna status 422 caso quantity seja negativa', async function () {
     const result = await saleService.newSale(wrongZeroNegativeBody);
     expect(result.type).to.be.deep.equal('INVALID_VALUE');
     expect(result.message).to.deep.equal('"quantity" must be greater than or equal to 1');
@@ -41,7 +41,7 @@ describe('Testes de unidade do service de sales', function () {
     expect(result.message).to.deep.equal(saleId2);
   });
   
-   it('Retorna mensagem de erro caso id não exista', async function () {
+   it('Retorna status 404 caso id não exista', async function () {
     sinon.stub(saleModel, 'findById').resolves(idNotFoundError);
     const result = await saleService.findById(99);
     expect(result).to.deep.equal(idNotFoundError);
@@ -54,7 +54,7 @@ describe('Testes de unidade do service de sales', function () {
     expect(result.message).to.be.deep.equal('');
    });
 
-  it('Verifica se não é possível excluir uma venda com id inexistente', async function () {
+  it('Retorna status 404 caso não seja possível realizar uma venda com id inexistente', async function () {
      sinon.stub(saleModel, 'deleteSale').resolves(allSales);
     const result = await saleService.deleteSaleById(99)
     expect(result).to.be.deep.equal(idNotFoundError);
@@ -68,7 +68,7 @@ describe('Testes de unidade do service de sales', function () {
     expect(result.message).to.be.deep.equal(updatedSale);
   });
 
-  it('Retorna mensagem de erro caso id não exista no momento da atualização', async function () {
+  it('Retorna status 404 caso id não exista no momento da atualização', async function () {
     sinon.stub(saleModel, 'updateSale').resolves(idNotFoundError);
     const { itemsUpdated } = updatedSale;
     const result = await saleService.updateSale(99, itemsUpdated);

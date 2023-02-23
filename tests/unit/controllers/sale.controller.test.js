@@ -61,7 +61,7 @@ describe('Testes de unidade do controller de sale', function () {
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith(notFoundError.message);
    });
-  it('Verifica se a função de buscar as sales de acordo com o id', async function () {
+  it('Verifica se é possível buscar as sales de acordo com o id', async function () {
     const res = {};
     const req = { params: { id: 2 }};
     res.status = sinon.stub().returns(res);

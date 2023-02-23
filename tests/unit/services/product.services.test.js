@@ -32,7 +32,7 @@ describe('Testes de unidade do service de products', function () {
     expect(result).to.be.deep.equal(idNotNumberError);
   });
 
-   it('Não retorna mensagem quando acrescenta um novo product', async function () {
+   it('Retorna um novo product', async function () {
     sinon.stub(productModel, 'insertNewProduct').resolves(newProduct);
     const result = await productService.newProduct('ProdutoX')
     expect(result.type).to.be.deep.equal(null);
@@ -53,10 +53,20 @@ describe('Testes de unidade do service de products', function () {
     expect(result.message).to.be.deep.equal('');
    });
 
-  it('Verifica se não é possível excluir um produto com id inexistente', async function () {
+  it('etorna status 422 caso não seja possível excluir um produto com id inexistente', async function () {
     sinon.stub(productModel, 'deleteProduct').resolves(products);
     const result = await productService.deleteProductById(99)
     expect(result).to.be.deep.equal(idNotFoundError);
+  });
+  
+   it('Verifica se é possível buscar um produto pelo nome', async function () {
+    const result = await productService.searchProduct('Martelo')
+    expect(result.message).to.be.deep.equal([products[0]]);
+   });
+  
+   it('Retorna um array vazio caso não seja possível buscar um produto pelo nome', async function () {
+    const result = await productService.searchProduct('XxxxX')
+    expect(result.message).to.be.deep.equal([]);
    });
   
   afterEach(function () {

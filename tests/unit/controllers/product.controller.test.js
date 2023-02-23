@@ -126,7 +126,7 @@ describe('Testes de unidade do controller de products', function () {
 
     expect(res.status).to.have.been.calledWith(204);
   });
-  it('Verifica se é possível excluir product com id inexistente', async function () {
+  it('Retorna status 404 caso não seja possível excluir product com id inexistente', async function () {
     const res = {};
     const req = { params: { id: 99 }};
     res.status = sinon.stub().returns(res);
@@ -135,6 +135,30 @@ describe('Testes de unidade do controller de products', function () {
       .stub(productService, 'deleteProductById')
       .resolves(notFoundError);
     await productController.deleteProductById(req, res)
+
+    expect(res.status).to.have.been.calledWith(404);
+  });
+  it('Verifica se é possível buscar product de acordo com o nome', async function () {
+    const res = {};
+    const req = { query: { q: 'Martelo' }};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(productService, 'searchProduct')
+      .resolves(oneProduct);
+    await productController.searchProductByName(req, res)
+
+    expect(res.status).to.have.been.calledWith(200);
+  });
+  it('Retorna status 404 caso não seja possível buscar product com nome inexistente', async function () {
+    const res = {};
+    const req = { query: { q: 'xxx' }};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(productService, 'searchProduct')
+      .resolves(notFoundError);
+    await productController.searchProductByName(req, res)
 
     expect(res.status).to.have.been.calledWith(404);
    });

@@ -35,7 +35,7 @@ describe('Testes de unidade do model de products', function () {
     const result = await productModel.deleteProduct(1)
     expect(result).to.be.deep.equal(removeProduct1);
   });
-
+  
   afterEach(function () {
     sinon.restore();
   });

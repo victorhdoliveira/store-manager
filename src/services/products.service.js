@@ -43,8 +43,6 @@ const searchProduct = async (search) => {
   const allProducts = await productModel.findAll();
   const filtering = allProducts.filter((product) => product.name.includes(search));
 
-  if (!allProducts) return allProducts;
-
   return { type: null, message: filtering };
 };
 
