@@ -1,13 +1,66 @@
-# :construction: README customizado em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
+## Projeto Store Manager
+Foi desenvolvida uma API para emular o desempenho de uma loja, com a finalidade de armazenar informações sobre produtos e vendas. Para possibilitar essa funcionalidade, implementou-se o CRUD nas rotas /sales e /products. Além disso, utilizou-se a Arquitetura MSC (Model, Service e Controller) para criar as rotas e estabelecer a comunicação com o banco de dados. A fim de garantir a qualidade do sistema, testes foram criados para as camadas MSC, utilizando a ferramenta Mocha.
 
-Para deixá-lo com a sua cara, basta alterar o seguinte arquivo da sua máquina: ~/.student-repo-publisher/custom/_NEW_README.md
+## Tecnologias
+* Node.js
+* Docker
+* docker-compose
+* SQL
+* Mocha
 
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+## Instalando Dependências
+Clone o repositório do GitHub
+
+```javascript
+ git clone git@github.com:victorhdoliveira/store-manager.git
+```
+
+### Com Docker
+> Backend
+
+1. Rode os serviços node e db com o seguinte comando: 
+```bash
+docker-compose up -d
+``` 
+
+2. Abra o terminal interativo do container: 
+```bash
+docker exec -it store_manager bash
+``` 
+
+3. Instale as dependências dentro do container: 
+```bash
+npm install
+``` 
+4. Execute a aplicação: 
+```bash
+npm start
+``` 
+> Testes
+
+5. Dentro do terminal do container:
+```bash
+npm test
+``` 
+6. Para rodar os testes unitários:
+```bash
+npm test:mocha
+``` 
+
+:warning: Atenção: O git dentro do container não vem configurado com suas credenciais;
+
+### Sem Docker
+
+Instale as dependências
+```bash
+npm install
+```
+
+Para executar os testes:
+```bash
+npm test
+``` 
+Para rodar os testes unitários:
+```bash
+npm test:mocha
+``` 
